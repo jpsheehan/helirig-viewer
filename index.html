@@ -10,15 +10,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <style>
-    .rig,
-    .rig.error:hover,
-    .rig.top:hover {
-      border: 3px solid white;
-      cursor: auto;
-    }
-
     .rig:hover {
-      border: 3px solid green;
       cursor: pointer;
     }
   </style>
@@ -128,19 +120,23 @@
         parent.appendChild(div);
 
         parent.onclick = function (ev) {
-          if (i != top_index && loaded_images[i]) {
-            const grandparent = parent.parentNode;
-            grandparent.removeChild(parent);
-            parent.classList.add("top");
+          if (loaded_images[i]) {
+            if (i === top_index) {
+              img.requestFullscreen();
+            } else {
+              const grandparent = parent.parentNode;
+              grandparent.removeChild(parent);
+              parent.classList.add("top");
 
-            top_grandparent = cards[top_index].parentNode;
-            top_grandparent.removeChild(cards[top_index]);
-            cards[top_index].classList.remove("top");
+              top_grandparent = cards[top_index].parentNode;
+              top_grandparent.removeChild(cards[top_index]);
+              cards[top_index].classList.remove("top");
 
-            top_grandparent.appendChild(parent);
-            grandparent.appendChild(cards[top_index]);
+              top_grandparent.appendChild(parent);
+              grandparent.appendChild(cards[top_index]);
 
-            top_index = i;
+              top_index = i;
+            }
           }
         }
       }
