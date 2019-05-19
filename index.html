@@ -89,6 +89,8 @@
   <style>
   </style>
   <script>
+    const loaded_images = [];
+
     function get_img_url(rig_id) {
       const timestamp = (new Date()).getTime();
       return `http://helirig${rig_id}.canterbury.ac.nz:7070/camera_1.mjpg?${timestamp}`;
@@ -101,13 +103,15 @@
     window.onload = function () {
       const cards = document.querySelectorAll(".rig");
       for (let i = 0; i < cards.length; i++) {
+        loaded_images.push(false);
+
         const parent = cards[i];
         const rig_id = i + 1;
         const img = document.createElement("img");
         img.className = "card-img";
         img.alt = get_img_alt(rig_id);
         img.onload = function (ev) {
-          console.log(ev)
+          loaded_images[i] = true;
         }
         img.onerror = function (ev) {
           console.log(ev)
@@ -122,6 +126,15 @@
         h5.innerText = get_img_alt(rig_id);
         div.appendChild(h5);
         parent.appendChild(div);
+
+        parent.onclick = function (ev) {
+          if (i != 0 && loaded_images[i]) {
+            const top_html = cards[0].innerHTML;
+            const this_html = parent.innerHTML;
+            cards[0].innerHTML = this_html;
+            parent.innerHTML = top_html;
+          }
+        }
       }
     }
   </script>
