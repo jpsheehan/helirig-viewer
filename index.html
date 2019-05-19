@@ -23,47 +23,47 @@
           </div>
           <div class="row">
             <div class="col">
-              <div class="card">
-                <img class="card-img" src="http://helirig1.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 1">
+              <div class="card rig">
+                <!-- <img class="card-img" src="http://helirig1.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 1">
                 <div class="card-img-overlay">
                   <h5 class="card-title text-light">HeliRig 1</h5>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <div class="card">
-                <img class="card-img" src="http://helirig2.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 2">
+              <div class="card rig">
+                <!-- <img class="card-img" src="http://helirig2.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 2">
                 <div class="card-img-overlay">
                   <h5 class="card-title text-light">HeliRig 2</h5>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="col">
-              <div class="card">
-                <img class="card-img" src="http://helirig3.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 3">
+              <div class="card rig">
+                <!-- <img class="card-img" src="http://helirig3.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 3">
                 <div class="card-img-overlay">
                   <h5 class="card-title text-light">HeliRig 3</h5>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <div class="card">
-                <img class="card-img" src="http://helirig4.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 4">
+              <div class="card rig">
+                <!-- <img class="card-img" src="http://helirig4.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 4">
                 <div class="card-img-overlay">
                   <h5 class="card-title text-light">HeliRig 4</h5>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="col">
-              <div class="card">
-                <img class="card-img" src="http://helirig5.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 5">
+              <div class="card rig">
+                <!-- <img class="card-img" src="http://helirig5.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 5">
                 <div class="card-img-overlay">
                   <h5 class="card-title text-light">HeliRig 5</h5>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -86,9 +86,45 @@
       </div>
     </div>
   </div>
-
   <style>
   </style>
+  <script>
+    function get_img_url(rig_id) {
+      const timestamp = (new Date()).getTime();
+      return `http://helirig${rig_id}.canterbury.ac.nz:7070/camera_1.mjpg?${timestamp}`;
+    }
+
+    function get_img_alt(rig_id) {
+      return `HeliRig ${rig_id}`;
+    }
+
+    window.onload = function () {
+      const cards = document.querySelectorAll(".rig");
+      for (let i = 0; i < cards.length; i++) {
+        const parent = cards[i];
+        const rig_id = i + 1;
+        const img = document.createElement("img");
+        img.className = "card-img";
+        img.alt = get_img_alt(rig_id);
+        img.onload = function (ev) {
+          console.log(ev)
+        }
+        img.onerror = function (ev) {
+          console.log(ev)
+        }
+        img.src = get_img_url(rig_id);
+        parent.appendChild(img);
+
+        const div = document.createElement("div");
+        div.className = "card-img-overlay";
+        const h5 = document.createElement("h5");
+        h5.className = "card-title text-light";
+        h5.innerText = get_img_alt(rig_id);
+        div.appendChild(h5);
+        parent.appendChild(div);
+      }
+    }
+  </script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
