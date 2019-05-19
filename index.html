@@ -78,6 +78,7 @@
   </style>
   <script>
     const loaded_images = [];
+    let top_index = 0;
 
     function get_img_url(rig_id) {
       const timestamp = (new Date()).getTime();
@@ -133,11 +134,19 @@
         parent.appendChild(div);
 
         parent.onclick = function (ev) {
-          if (i != 0 && loaded_images[i]) {
-            const top_html = cards[0].innerHTML.substr(0);
-            const this_html = parent.innerHTML.substr(0);
-            cards[0].innerHTML = this_html;
-            parent.innerHTML = top_html;
+          if (i != top_index && loaded_images[i]) {
+            const grandparent = parent.parentNode;
+            grandparent.removeChild(parent);
+            parent.classList.add("top");
+
+            top_grandparent = cards[top_index].parentNode;
+            top_grandparent.removeChild(cards[top_index]);
+            cards[top_index].classList.remove("top");
+
+            top_grandparent.appendChild(parent);
+            grandparent.appendChild(cards[top_index]);
+
+            top_index = i;
           }
         }
       }
