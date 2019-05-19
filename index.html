@@ -9,6 +9,19 @@
   <title>HeliRig Viewer</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <style>
+    .rig,
+    .rig.error:hover,
+    .rig.top:hover {
+      border: 3px solid white;
+      cursor: auto;
+    }
+
+    .rig:hover {
+      border: 3px solid green;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
@@ -23,48 +36,23 @@
           </div>
           <div class="row">
             <div class="col">
-              <div class="card rig">
-                <!-- <img class="card-img" src="http://helirig1.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 1">
-                <div class="card-img-overlay">
-                  <h5 class="card-title text-light">HeliRig 1</h5>
-                </div> -->
-              </div>
+              <div class="card rig top"></div>
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <div class="card rig">
-                <!-- <img class="card-img" src="http://helirig2.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 2">
-                <div class="card-img-overlay">
-                  <h5 class="card-title text-light">HeliRig 2</h5>
-                </div> -->
-              </div>
+              <div class="card rig"></div>
             </div>
             <div class="col">
-              <div class="card rig">
-                <!-- <img class="card-img" src="http://helirig3.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 3">
-                <div class="card-img-overlay">
-                  <h5 class="card-title text-light">HeliRig 3</h5>
-                </div> -->
-              </div>
+              <div class="card rig"></div>
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <div class="card rig">
-                <!-- <img class="card-img" src="http://helirig4.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 4">
-                <div class="card-img-overlay">
-                  <h5 class="card-title text-light">HeliRig 4</h5>
-                </div> -->
-              </div>
+              <div class="card rig"></div>
             </div>
             <div class="col">
-              <div class="card rig">
-                <!-- <img class="card-img" src="http://helirig5.canterbury.ac.nz:7070/camera_1.mjpg" alt="HeliRig 5">
-                <div class="card-img-overlay">
-                  <h5 class="card-title text-light">HeliRig 5</h5>
-                </div> -->
-              </div>
+              <div class="card rig"></div>
             </div>
           </div>
           <div class="row">
@@ -103,31 +91,49 @@
     window.onload = function () {
       const cards = document.querySelectorAll(".rig");
       for (let i = 0; i < cards.length; i++) {
-        loaded_images.push(false);
-
         const parent = cards[i];
         const rig_id = i + 1;
-        const img = document.createElement("img");
-        img.className = "card-img";
-        img.alt = get_img_alt(rig_id);
-        img.onload = function (ev) {
-          loaded_images[i] = true;
-        }
-        img.onerror = function (ev) {
-          console.log(ev)
-        }
-        img.src = get_img_url(rig_id);
-        parent.appendChild(img);
+
+        loaded_images.push(false);
 
         const div = document.createElement("div");
         div.className = "card-img-overlay";
         const h5 = document.createElement("h5");
-        h5.className = "card-title text-light";
-        h5.innerText = get_img_alt(rig_id);
+        h5.className = "card-title";
+        h5.innerText = `Loading ${get_img_alt(rig_id)}...`;
         div.appendChild(h5);
+
+        const img = document.createElement("img");
+        img.className = "card-img";
+        img.alt = get_img_alt(rig_id);
+        img.onload = function (ev) {
+          h5.className = "card-title text-light";
+          h5.innerText = get_img_alt(rig_id);
+          parent.appendChild(img);
+          loaded_images[i] = true;
+        }
+
+        img.onerror = function (ev) {
+          // parent.className = "card bg-warning";
+
+          h5.className = "card-title";
+          h5.innerText = `Error: ${get_img_alt(rig_id)}`;
+          div.className = "card-body";
+          parent.classList.add("error");
+
+          const error_msg = document.createElement("p");
+          error_msg.className = "card-text";
+          error_msg.innerText = "Could not load camera feed.";
+          div.appendChild(error_msg);
+        }
+
+        // begin loading the image
+        img.src = get_img_url(rig_id);
+
         parent.appendChild(div);
 
         parent.onclick = function (ev) {
+          console.log('asd')
           if (i != 0 && loaded_images[i]) {
             const top_html = cards[0].innerHTML;
             const this_html = parent.innerHTML;
