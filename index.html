@@ -133,10 +133,9 @@
         parent.appendChild(div);
 
         parent.onclick = function (ev) {
-          console.log('asd')
           if (i != 0 && loaded_images[i]) {
-            const top_html = cards[0].innerHTML;
-            const this_html = parent.innerHTML;
+            const top_html = cards[0].innerHTML.substr(0);
+            const this_html = parent.innerHTML.substr(0);
             cards[0].innerHTML = this_html;
             parent.innerHTML = top_html;
           }
