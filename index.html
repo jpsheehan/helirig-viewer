@@ -13,6 +13,12 @@
     .rig:hover {
       cursor: pointer;
     }
+
+    @media screen and (min-width: 800px) and (orientation: landscape) {
+      body>.container {
+        width: 45%;
+      }
+    }
   </style>
 </head>
 
@@ -77,9 +83,15 @@
 
     window.onload = function () {
       const cards = document.querySelectorAll(".rig");
+      const top_rig = document.querySelector(".rig .top");
+
       for (let i = 0; i < cards.length; i++) {
         const parent = cards[i];
         const rig_id = i + 1;
+
+        if (top_rig === parent) {
+          top_index = i;
+        }
 
         loaded_images.push(false);
 
