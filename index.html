@@ -122,7 +122,12 @@
         parent.onclick = function (ev) {
           if (loaded_images[i]) {
             if (i === top_index) {
-              img.requestFullscreen();
+              if (document.fullscreenElement) {
+                document.exitFullscreen();
+              }
+              else {
+                img.requestFullscreen();
+              }
             } else {
               const grandparent = parent.parentNode;
               grandparent.removeChild(parent);
