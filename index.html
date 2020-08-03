@@ -40,11 +40,6 @@
     </div>
     <div class="row">
       <div class="col">
-        <div class="card rig top"></div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
         <div class="card rig"></div>
       </div>
       <div class="col">
@@ -125,7 +120,9 @@
 
     function get_img_url(rig_id) {
       const timestamp = (new Date()).getTime();
-      return `http://helirig${rig_id}.canterbury.ac.nz:7070/camera_1.mjpg?${timestamp}`;
+      const url = `http://132.181.52.${rig_id}:7070/camera1.mjpg?${timestamp}`;
+      console.log(url);
+      return url;
     }
 
     function get_img_alt(rig_id) {
